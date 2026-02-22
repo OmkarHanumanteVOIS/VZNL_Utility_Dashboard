@@ -1,0 +1,20 @@
+<script src="app.js"></script>
+<script>
+async function verify() {
+    const username = document.getElementById("username").value.trim();
+    if (!username) {
+        document.getElementById("status").textContent = "Please enter a username";
+        return;
+    }
+
+    const result = App.verifyUser(username);
+
+    if (result.status === "success") {
+        localStorage.setItem("verifiedUser", result.user);
+        localStorage.setItem("canReset", result.can_reset);
+        window.location.href = "dashboard.html";
+    } else {
+        document.getElementById("status").textContent = "Verification failed";
+    }
+}
+</script>
