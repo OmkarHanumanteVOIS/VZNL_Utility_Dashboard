@@ -1,0 +1,147 @@
+body.gradient {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(to right, #E60000, #FF8000);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  position: relative;
+}
+
+.card {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  max-width: 700px;
+  width: 100%;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #E60000;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.input-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.input-group input {
+  width: 60%;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.input-group button {
+  width: 120px;
+  background-color: #E60000;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.input-group button:hover {
+  background-color: #CC0000;
+}
+
+.dropdown-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.dropdown-row select {
+  width: 150px;
+  padding: 8px;
+}
+
+.button-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+button {
+  width: 140px;
+  background-color: #E60000;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #CC0000;
+}
+
+.copy-button {
+  background-color: #FF8000;
+  border: 2px solid #FF8000;
+}
+
+.copy-button:hover {
+  background-color: #E67300;
+  border-color: #E67300;
+}
+
+.details {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 6px;
+  text-align: left;
+  white-space: pre-wrap;
+  font-family: monospace;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.status {
+  font-size: 0.9rem;
+  color: #E60000;
+  margin-top: 0.5rem;
+}
+
+.support {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 1rem;
+}
+
+.top-bar {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+}
+
+.logout-button {
+  background-color: #E60000;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #CC0000;
+}
