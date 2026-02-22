@@ -1,0 +1,75 @@
+<script src="app.js"></script>
+<script>
+async function loadDropdowns() {
+    await App.loadCSV();
+    const result = App.getDropdowns();
+
+    populate("typeSelect", result.types);
+    populate("offerSelect", result.offers);
+    populate("cycleSelect", result.cycles);
+
+    if (localStorage.getItem("canReset") !== "true") {
+        document.getElementById("resetBtn").style.display = "none";
+    }
+}
+
+function populate(id, items) {
+    const select = document.getElementById(id);
+    select.innerHTML = "<option>Select</option>";
+    items.forEach(item => {
+        const opt = document.createElement("option");
+        opt.value = item;
+        opt.textContent = item;
+        select.appendChild(opt);
+    });
+}
+
+function retrieveDetails() {
+    const user = localStorage.getItem("verifiedUser");
+    const type = document.getElementById("typeSelect").value;
+    const offer = document.getElementById("offerSelect").value;
+    const cycle = document.getElementById("cycleSelect").value;
+
+    const result = App.retrieveCustomer(user, type, offer, cycle);
+
+    if (result.status === "success") {
+        const text = Object.entries(result.details)
+            .map(([k, v]) => `${k}: ${v}`)
+            .join("\n");
+
+        document.getElementById("details").textContent = text;
+        document.getElementById("status").textContent = "Customer details retrieved successfully";
+    } else {
+        document.getElementById("details").textContent = "";
+        document.getElementById("status").textContent = "No matching entries found";
+    }
+}
+
+function copyDetails() {
+    const text = document.getElementById("details").textContent;
+    navigator.clipboard.writeText(text);
+    document.getElementById("status").textContent = "Details copied to clipboard";
+}
+
+function resetAll() {
+    App.resetAll();
+    document.getElementById("status").textContent = "Data reset (browser only)";
+    loadDropdowns();
+    clearSelection();
+}
+
+function clearSelection() {
+    document.getElementById("typeSelect").selectedIndex = 0;
+    document.getElementById("offerSelect").selectedIndex = 0;
+    document.getElementById("cycleSelect").selectedIndex = 0;
+    document.getElementById("details").textContent = "";
+    document.getElementById("status").textContent = "";
+}
+
+function logout() {
+    localStorage.clear();
+    window.location.href = "verify.html";
+}
+
+window.onload = loadDropdowns;
+</script>
