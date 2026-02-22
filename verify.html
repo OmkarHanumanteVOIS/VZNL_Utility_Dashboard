@@ -1,20 +1,44 @@
-<script src="app.js"></script>
-<script>
-async function verify() {
-    const username = document.getElementById("username").value.trim();
-    if (!username) {
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>VIT Data Retriever</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="gradient">
+  <div class="card">
+    <h1>VIT Data Retriever</h1>
+    <p>Enter your Username below</p>
+
+    <div class="input-group">
+      <input id="username" type="text" placeholder="Enter your Username">
+      <button onclick="verify()">Verify</button>
+    </div>
+
+    <p id="status" class="status"></p>
+    <p class="support">Need help? Contact support</p>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    function verify() {
+      const username = document.getElementById("username").value.trim();
+      if (!username) {
         document.getElementById("status").textContent = "Please enter a username";
         return;
-    }
+      }
 
-    const result = App.verifyUser(username);
+      const result = App.verifyUser(username);
 
-    if (result.status === "success") {
+      if (result.status === "success") {
         localStorage.setItem("verifiedUser", result.user);
         localStorage.setItem("canReset", result.can_reset);
         window.location.href = "dashboard.html";
-    } else {
+      } else {
         document.getElementById("status").textContent = "Verification failed";
+      }
     }
-}
-</script>
+  </script>
+</body>
+</html>
