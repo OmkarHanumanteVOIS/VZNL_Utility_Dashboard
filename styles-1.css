@@ -118,7 +118,7 @@ h1 {
     background-image: url("assets/kvk.png"); /* KVK Number Generator clipart */
 }
 
-.utility-box[href*="chatbot.html"] {
+.utility-box[href*="verify.html"] {
     background-image: url("assets/VIT.png"); /* VIT Icon */
 }
 
