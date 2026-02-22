@@ -1,75 +1,122 @@
-<script src="app.js"></script>
-<script>
-async function loadDropdowns() {
-    await App.loadCSV();
-    const result = App.getDropdowns();
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 
-    populate("typeSelect", result.types);
-    populate("offerSelect", result.offers);
-    populate("cycleSelect", result.cycles);
+<body class="gradient">
+  <div class="top-bar">
+    <button class="logout-button" onclick="logout()">Logout</button>
+  </div>
 
-    if (localStorage.getItem("canReset") !== "true") {
+  <div class="card">
+    <h1>VIT Data Retriever</h1>
+    <p>Select options to retrieve customer details</p>
+
+    <div class="dropdown-row">
+      <div class="dropdown-group">
+        <label for="typeSelect">Type</label>
+        <select id="typeSelect"><option>Select Type</option></select>
+      </div>
+
+      <div class="dropdown-group">
+        <label for="offerSelect">Offer</label>
+        <select id="offerSelect"><option>Select Offer</option></select>
+      </div>
+
+      <div class="dropdown-group">
+        <label for="cycleSelect">Bill Cycle</label>
+        <select id="cycleSelect"><option>Select Bill Cycle</option></select>
+      </div>
+    </div>
+
+    <div class="button-row">
+      <button onclick="retrieveDetails()">Retrieve</button>
+      <button class="copy-button" onclick="copyDetails()">Copy</button>
+      <button onclick="clearSelection()">Clear</button>
+      <button id="resetBtn" onclick="resetAll()">Reset All</button>
+    </div>
+
+    <pre id="details" class="details"></pre>
+    <p id="status" class="status"></p>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    async function loadDropdowns() {
+      await App.loadCSV();
+      const result = App.getDropdowns();
+
+      populate("typeSelect", result.types);
+      populate("offerSelect", result.offers);
+      populate("cycleSelect", result.cycles);
+
+      if (localStorage.getItem("canReset") !== "true") {
         document.getElementById("resetBtn").style.display = "none";
+      }
     }
-}
 
-function populate(id, items) {
-    const select = document.getElementById(id);
-    select.innerHTML = "<option>Select</option>";
-    items.forEach(item => {
+    function populate(id, items) {
+      const select = document.getElementById(id);
+      select.innerHTML = "<option>Select</option>";
+      items.forEach(item => {
         const opt = document.createElement("option");
         opt.value = item;
         opt.textContent = item;
         select.appendChild(opt);
-    });
-}
+      });
+    }
 
-function retrieveDetails() {
-    const user = localStorage.getItem("verifiedUser");
-    const type = document.getElementById("typeSelect").value;
-    const offer = document.getElementById("offerSelect").value;
-    const cycle = document.getElementById("cycleSelect").value;
+    function retrieveDetails() {
+      const user = localStorage.getItem("verifiedUser");
+      const type = document.getElementById("typeSelect").value;
+      const offer = document.getElementById("offerSelect").value;
+      const cycle = document.getElementById("cycleSelect").value;
 
-    const result = App.retrieveCustomer(user, type, offer, cycle);
+      const result = App.retrieveCustomer(user, type, offer, cycle);
 
-    if (result.status === "success") {
+      if (result.status === "success") {
         const text = Object.entries(result.details)
-            .map(([k, v]) => `${k}: ${v}`)
-            .join("\n");
+          .map(([k, v]) => `${k}: ${v}`)
+          .join("\n");
 
         document.getElementById("details").textContent = text;
         document.getElementById("status").textContent = "Customer details retrieved successfully";
-    } else {
+      } else {
         document.getElementById("details").textContent = "";
         document.getElementById("status").textContent = "No matching entries found";
+      }
     }
-}
 
-function copyDetails() {
-    const text = document.getElementById("details").textContent;
-    navigator.clipboard.writeText(text);
-    document.getElementById("status").textContent = "Details copied to clipboard";
-}
+    function copyDetails() {
+      const text = document.getElementById("details").textContent;
+      navigator.clipboard.writeText(text);
+      document.getElementById("status").textContent = "Details copied to clipboard";
+    }
 
-function resetAll() {
-    App.resetAll();
-    document.getElementById("status").textContent = "Data reset (browser only)";
-    loadDropdowns();
-    clearSelection();
-}
+    function resetAll() {
+      App.resetAll();
+      document.getElementById("status").textContent = "Data reset (browser only)";
+      loadDropdowns();
+      clearSelection();
+    }
 
-function clearSelection() {
-    document.getElementById("typeSelect").selectedIndex = 0;
-    document.getElementById("offerSelect").selectedIndex = 0;
-    document.getElementById("cycleSelect").selectedIndex = 0;
-    document.getElementById("details").textContent = "";
-    document.getElementById("status").textContent = "";
-}
+    function clearSelection() {
+      document.getElementById("typeSelect").selectedIndex = 0;
+      document.getElementById("offerSelect").selectedIndex = 0;
+      document.getElementById("cycleSelect").selectedIndex = 0;
+      document.getElementById("details").textContent = "";
+      document.getElementById("status").textContent = "";
+    }
 
-function logout() {
-    localStorage.clear();
-    window.location.href = "verify.html";
-}
+    function logout() {
+      localStorage.clear();
+      window.location.href = "verify.html";
+    }
 
-window.onload = loadDropdowns;
-</script>
+    window.onload = loadDropdowns;
+  </script>
+</body>
+</html>
